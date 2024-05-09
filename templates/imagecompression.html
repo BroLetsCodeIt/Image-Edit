@@ -1,8 +1,36 @@
 {% extends "dasboard.html" %}
 
 {% block content %}
-<div>
-    <h1>heoll</h1>
+<div class="p-4 flex items-start flex-col w-full">
+    <div class="flex gap-3 flex-col w-full">
+        <p class="text-3xl font-semibold">(Quality) -> <span>100%</span></p>
+        <input type="range" min="0" max="100" value="100" class="w-[50%] bg-blue-400">
+    </div>
+    <div class="w-full flex items-start pt-[1rem] h-full justify-between gap-4">
+       <div class="w-full  h-[35rem] border-2 rounded-md border-dashed border-gray-300 overflow-auto">
+         <img src="/static/images/pythonflaskcourse.jpg" alt="" class="object-contain" draggable="true" >
+       </div>
+       <div class="w-full  h-[35rem] border-2 rounded-sm border-dashed border-gray-300 overflow-auto">
+         
+       </div>
+       
+    </div>
+    <form action="/dashboard/image-compression/upload" method="post" enctype="multipart/form-data" class="flex items-start justify-evenly w-full">
+        <label for="image">Choose an image:</label>
+        <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .gif" >
+        <button type="submit">Compress</button>
+    </form>
+    
+    <!-- Display flashed messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 </div>
 
 {% endblock %}

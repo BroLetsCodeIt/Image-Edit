@@ -20,14 +20,6 @@ def DasboardImageEditing(action):
     
 
 
-# @app.route('/image-analysis')
-# def DashboardImageAnalysis():
-#     return render_template('imageanalysis.html')
-
-
-# @app.route('/image-compression')
-# def DashboardImageCompression():
-#     return render_template('imagecompression.html')
 
 
 if __name__ == '__main__':
