@@ -2,24 +2,41 @@
 
 {% block content %}
 <div class="p-4 flex items-start flex-col w-full">
-    <div class="flex gap-3 flex-col w-full">
-        <p class="text-3xl font-semibold">(Quality) -> <span>100%</span></p>
-        <input type="range" min="0" max="100" value="100" class="w-[50%] bg-blue-400">
-    </div>
-    <div class="w-full flex items-start pt-[1rem] h-full justify-between gap-4">
-       <div class="w-full  h-[35rem] border-2 rounded-md border-dashed border-gray-300 overflow-auto">
-         <img src="/static/images/pythonflaskcourse.jpg" alt="" class="object-contain" draggable="true" >
-       </div>
-       <div class="w-full  h-[35rem] border-2 rounded-sm border-dashed border-gray-300 overflow-auto">
-         
-       </div>
-       
-    </div>
-    <form action="/dashboard/image-compression/upload" method="post" enctype="multipart/form-data" class="flex items-start justify-evenly w-full">
-        <label for="image">Choose an image:</label>
-        <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .gif" >
-        <button type="submit">Compress</button>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4 w-full">
+        <label class="block w-full">
+            
+            <input type="file" name="images" multiple class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-gray-50 hover:file:bg-gray-100 border-2 border-gray-300 mt-4 w-full rounded-md hover:border-3 bg-gray-200 cursor-pointer">
+        </label>
+        
+        <label class="w-[20%]">
+            <span class="text-gray-700">Compression Quality</span>
+            <input type="range" name="quality" min="0" max="100" value="100" class="w-full">
+        </label>
+        <span>
+
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Compress Images
+            </button>
+        </span>
     </form>
+
+    <div class="container mx-auto mt-6 w-full border-2 border-gray-300 p-3 rounded-md h-full">
+        <h1 class="text-2xl font-bold mb-4">Compressed Images</h1>
+        
+        {% if compressed_files %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for file in compressed_files %}
+                    <div class="border rounded-lg p-2 flex flex-col items-center">
+                        <img src="{{ url_for('download', filename=file.split('/')[-1]) }}" class="w-full h-auto" alt="Compressed Image">
+                        <a href="{{ url_for('download', filename=file.split('/')[-1]) }}" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" download>Download</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No compressed files found.</p>
+        {% endif %}
+    </div>
     
     <!-- Display flashed messages -->
     {% with messages = get_flashed_messages() %}
@@ -32,5 +49,7 @@
     {% endif %}
     {% endwith %}
 </div>
+
+
 
 {% endblock %}
